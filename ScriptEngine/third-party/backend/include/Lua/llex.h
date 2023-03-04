@@ -31,14 +31,17 @@
 */
 enum RESERVED {
   /* terminal symbols denoted by reserved words */
-  TK_AND = FIRST_RESERVED, TK_BREAK,
-  TK_DO, TK_ELSE, TK_ELSEIF, TK_END, TK_FALSE, TK_FOR, TK_FUNCTION,
-  TK_GOTO, TK_IF, TK_IN, TK_LOCAL, TK_NIL, TK_NOT, TK_OR, TK_REPEAT,
-  TK_RETURN, TK_THEN, TK_TRUE, TK_UNTIL, TK_WHILE,
+  TK_AUTO = FIRST_RESERVED, TK_BREAK, TK_CONTINUE,
+  TK_DO, TK_ELSE, TK_FALSE, TK___FILE__, TK_FOR, TK_FUNCTION,
+  TK_GOTO, TK_IF, TK_IN, TK_LET, TK___LINE__, TK_LOCAL, TK_NIL,
+  TK_RETURN, TK_TRUE, TK_VAR, TK_WHILE,
   /* other terminal symbols */
+  TK_AND, TK_NOT, TK_OR, TK_POW,
   TK_IDIV, TK_CONCAT, TK_DOTS, TK_EQ, TK_GE, TK_LE, TK_NE,
+  TK_CADD, TK_CSUB, TK_CMUL, TK_CDIV, TK_CMOD, TK_CCONCAT,
+  TK_PLUSPLUS, TK_MINUSMINUS,
   TK_SHL, TK_SHR,
-  TK_DBCOLON, TK_EOS,
+  TK_ARROW, TK_DBCOLON, TK_EOS,
   TK_FLT, TK_INT, TK_NAME, TK_STRING
 };
 
@@ -85,6 +88,7 @@ LUAI_FUNC TString *luaX_newstring (LexState *ls, const char *str, size_t l);
 LUAI_FUNC void luaX_next (LexState *ls);
 LUAI_FUNC int luaX_lookahead (LexState *ls);
 LUAI_FUNC l_noret luaX_syntaxerror (LexState *ls, const char *s);
+LUAI_FUNC void luaX_syntaxwarning (LexState *ls, const char *s);
 LUAI_FUNC const char *luaX_token2str (LexState *ls, int token);
 
 

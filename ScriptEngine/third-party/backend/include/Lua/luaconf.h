@@ -28,6 +28,9 @@
 ** ===================================================================
 */
 
+#if !defined(LUA_LJS) && !defined(NOLUA_LJS)
+#define LUA_LJS
+#endif
 
 /*
 ** {====================================================================
@@ -179,6 +182,11 @@
 #define LUA_PATH_MARK           "?"
 #define LUA_EXEC_DIR            "!"
 
+#ifdef LUA_LJS
+  #define LUA_SCRIPT_EXT ".ljs"
+#else
+  #define LUA_SCRIPT_EXT ".lua"
+#endif // LUA_LJS
 
 /*
 @@ LUA_PATH_DEFAULT is the default path that Lua uses to look for
@@ -202,10 +210,10 @@
 
 #if !defined(LUA_PATH_DEFAULT)
 #define LUA_PATH_DEFAULT  \
-		LUA_LDIR"?.lua;"  LUA_LDIR"?\\init.lua;" \
-		LUA_CDIR"?.lua;"  LUA_CDIR"?\\init.lua;" \
-		LUA_SHRDIR"?.lua;" LUA_SHRDIR"?\\init.lua;" \
-		".\\?.lua;" ".\\?\\init.lua"
+		LUA_LDIR"?" LUA_SCRIPT_EXT ";"  LUA_LDIR"?\\init" LUA_SCRIPT_EXT ";" \
+		LUA_CDIR"?" LUA_SCRIPT_EXT ";"  LUA_CDIR"?\\init" LUA_SCRIPT_EXT ";" \
+		LUA_SHRDIR"?" LUA_SCRIPT_EXT ";" LUA_SHRDIR"?\\init" LUA_SCRIPT_EXT ";" \
+		".\\?" LUA_SCRIPT_EXT ";" ".\\?\\init" LUA_SCRIPT_EXT ""
 #endif
 
 #if !defined(LUA_CPATH_DEFAULT)
@@ -217,15 +225,17 @@
 
 #else			/* }{ */
 
-#define LUA_ROOT	"/usr/local/"
+//#define LUA_ROOT	"/usr/local/"
+#define LUA_ROOT	"/home/mingo/local/ljs-5.4.4/"
+
 #define LUA_LDIR	LUA_ROOT "share/lua/" LUA_VDIR "/"
 #define LUA_CDIR	LUA_ROOT "lib/lua/" LUA_VDIR "/"
 
 #if !defined(LUA_PATH_DEFAULT)
 #define LUA_PATH_DEFAULT  \
-		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
-		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" \
-		"./?.lua;" "./?/init.lua"
+		LUA_LDIR"?" LUA_SCRIPT_EXT ";"  LUA_LDIR"?/init" LUA_SCRIPT_EXT ";" \
+		LUA_CDIR"?" LUA_SCRIPT_EXT ";"  LUA_CDIR"?/init" LUA_SCRIPT_EXT ";" \
+		"./?" LUA_SCRIPT_EXT ";" "./?/init" LUA_SCRIPT_EXT
 #endif
 
 #if !defined(LUA_CPATH_DEFAULT)
@@ -485,7 +495,6 @@
 @@ LUA_MAXINTEGER is the maximum value for a LUA_INTEGER.
 @@ LUA_MININTEGER is the minimum value for a LUA_INTEGER.
 @@ LUA_MAXUNSIGNED is the maximum value for a LUA_UNSIGNED.
-@@ LUA_UNSIGNEDBITS is the number of bits in a LUA_UNSIGNED.
 @@ lua_integer2str converts an integer to a string.
 */
 
@@ -504,9 +513,6 @@
 ** can turn a comparison between unsigneds into a signed comparison)
 */
 #define LUA_UNSIGNED		unsigned LUAI_UACINT
-
-
-#define LUA_UNSIGNEDBITS	(sizeof(LUA_UNSIGNED) * CHAR_BIT)
 
 
 /* now the variable definitions */
@@ -783,6 +789,12 @@
 */
 
 
+/*
+@@ LUA_INDEX_BASE is the index base used by array tables.
+** CHANGE it to 1 if you desire Lua compatibility.
+** By default Lua uses indexes base zero.
+*/
+#define LUA_INDEX_BASE  1
 
 
 
